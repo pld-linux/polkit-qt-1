@@ -6,7 +6,7 @@ Version:	0.95.1
 Release:	1
 License:	GPL v2
 Group:		Libraries
-Source0:	ftp://ftp.kde.org/pub/kde/stable/%{name}/%{name}-%{version}.tar.bz2
+Source0:	ftp://ftp.kde.org/pub/kde/stable/polkit-qt-1/%{name}-%{version}.tar.bz2
 # Source0-md5:	b5c5017058ab0f3bc7eb337a7c66e0bc
 URL:		http://www.kde.org/
 BuildRequires:	QtCore-devel >= %{qtver}
@@ -14,32 +14,45 @@ BuildRequires:	QtDBus-devel >= %{qtver}
 BuildRequires:	QtGui-devel >= %{qtver}
 BuildRequires:	automoc4
 BuildRequires:	cmake
+BuildRequires:	pkgconfig
 BuildRequires:	polkit-devel >= 0.95
 BuildRequires:	qt4-build >= %{qtver}
 BuildRequires:	qt4-qmake >= %{qtver}
-BuildRequires:	pkgconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-Polkit-qt-1 is a wrapper library around polkit-gobject and polkit-agent, which lets developers write easily applications using polkit-1, and even write custom authentication agents.
+Polkit-qt-1 is a wrapper library around polkit-gobject and
+polkit-agent, which lets developers write easily applications using
+polkit-1, and even write custom authentication agents.
+
+%package agent
+Summary:	Polkit-qt-1 Agent
+License:	GPL v2
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description agent
+Polkit-qt-1 Agent.
 
 %package devel
 Summary:	Polkit-qt-1 development files
 License:	GPL v2
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}-agent = %{version}-%{release}
 Requires:	%{name}-gui = %{version}-%{release}
 
 %description devel
 Polkit-qt-1 header files.
 
 %package gui
-Summary:	Polkit-qt-1 use the PolicyKit API through Qt-styled API
+Summary:	Polkit-qt-1 GUI
 License:	GPL v2
 Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
 
 %description gui
-Polkit-qt-1 gui.
+Polkit-qt-1 GUI.
 
 %prep
 %setup -q
@@ -74,17 +87,23 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %ghost %{_libdir}/libpolkit-qt-core.so.?
-%attr(755,root,root) %{_libdir}/libpolkit-qt-core.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libpolkit-qt-core-1.so.?
+%attr(755,root,root) %{_libdir}/libpolkit-qt-core-1.so.*.*.*
+
+%files agent
+%defattr(644,root,root,755)
+%attr(755,root,root) %ghost %{_libdir}/libpolkit-qt-agent-1.so.?
+%attr(755,root,root) %{_libdir}/libpolkit-qt-agent-1.so.*.*.*
 
 %files gui
 %defattr(644,root,root,755)
-%attr(755,root,root) %ghost %{_libdir}/libpolkit-qt-gui.so.?
-%attr(755,root,root) %{_libdir}/libpolkit-qt-gui.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libpolkit-qt-gui-1.so.?
+%attr(755,root,root) %{_libdir}/libpolkit-qt-gui-1.so.*.*.*
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libpolkit-qt-core.so
-%attr(755,root,root) %{_libdir}/libpolkit-qt-gui.so
-%{_includedir}/PolicyKit/polkit-qt
-%{_libdir}/pkgconfig/*.pc
+%attr(755,root,root) %{_libdir}/libpolkit-qt-agent-1.so
+%attr(755,root,root) %{_libdir}/libpolkit-qt-core-1.so
+%attr(755,root,root) %{_libdir}/libpolkit-qt-gui-1.so
+%{_includedir}/polkit-qt-1
+%{_pkgconfigdir}/*.pc
