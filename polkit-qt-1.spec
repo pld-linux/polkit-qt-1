@@ -12,6 +12,8 @@ URL:		http://www.kde.org/
 BuildRequires:	QtCore-devel >= %{qtver}
 BuildRequires:	QtDBus-devel >= %{qtver}
 BuildRequires:	QtGui-devel >= %{qtver}
+BuildRequires:	QtTest-devel >= %{qtver}
+BuildRequires:	QtXml-devel >= %{qtver}
 BuildRequires:	automoc4
 BuildRequires:	cmake
 BuildRequires:	pkgconfig
