@@ -1,9 +1,9 @@
-%define		qtver	4.6.0
+%define		qtver	4.6.3
 
 Summary:	Polkit-qt-1 wrapper library around polkit-gobject and polkit-agent
 Name:		polkit-qt-1
 Version:	0.96.1
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Libraries
 Source0:	ftp://ftp.kde.org/pub/kde/stable/apps/KDE4.x/admin//%{name}-%{version}.tar.bz2
@@ -43,6 +43,7 @@ Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	%{name}-agent = %{version}-%{release}
 Requires:	%{name}-gui = %{version}-%{release}
+Requires:	polkit-devel
 
 %description devel
 Polkit-qt-1 header files.
