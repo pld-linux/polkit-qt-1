@@ -2,12 +2,12 @@
 
 Summary:	Polkit-qt-1 wrapper library around polkit-gobject and polkit-agent
 Name:		polkit-qt-1
-Version:	0.95.1
+Version:	0.96.1
 Release:	1
 License:	GPL v2
 Group:		Libraries
-Source0:	ftp://ftp.kde.org/pub/kde/stable/polkit-qt-1/%{name}-%{version}.tar.bz2
-# Source0-md5:	b5c5017058ab0f3bc7eb337a7c66e0bc
+Source0:	ftp://ftp.kde.org/pub/kde/stable/apps/KDE4.x/admin//%{name}-%{version}.tar.bz2
+# Source0-md5:	7d122aa67c6786ea7d0bb023701693a1
 URL:		http://www.kde.org/
 BuildRequires:	QtCore-devel >= %{qtver}
 BuildRequires:	QtDBus-devel >= %{qtver}
@@ -17,7 +17,7 @@ BuildRequires:	QtXml-devel >= %{qtver}
 BuildRequires:	automoc4
 BuildRequires:	cmake
 BuildRequires:	pkgconfig
-BuildRequires:	polkit-devel >= 0.95
+BuildRequires:	polkit-devel >= 0.96
 BuildRequires:	qt4-build >= %{qtver}
 BuildRequires:	qt4-qmake >= %{qtver}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
