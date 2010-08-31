@@ -84,10 +84,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
-%post   -n agent -p /sbin/ldconfig
-%postun -n agent -p /sbin/ldconfig
-%post   -n gui -p /sbin/ldconfig
-%postun -n gui -p /sbin/ldconfig
+%post   agent -p /sbin/ldconfig
+%postun agent -p /sbin/ldconfig
+%post   gui -p /sbin/ldconfig
+%postun gui -p /sbin/ldconfig
 
 %clean
 rm -rf $RPM_BUILD_ROOT
