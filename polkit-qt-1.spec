@@ -3,7 +3,7 @@
 Summary:	Polkit-qt-1 wrapper library around polkit-gobject and polkit-agent
 Name:		polkit-qt-1
 Version:	0.96.1
-Release:	2
+Release:	3
 License:	GPL v2
 Group:		Libraries
 Source0:	ftp://ftp.kde.org/pub/kde/stable/apps/KDE4.x/admin//%{name}-%{version}.tar.bz2
@@ -84,6 +84,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
+%post   -n agent -p /sbin/ldconfig
+%postun -n agent -p /sbin/ldconfig
+%post   -n gui -p /sbin/ldconfig
+%postun -n gui -p /sbin/ldconfig
 
 %clean
 rm -rf $RPM_BUILD_ROOT
