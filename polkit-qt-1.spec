@@ -1,12 +1,13 @@
 %define		qtver	4.6.3
 
-Summary:	Polkit-qt-1 wrapper library around polkit-gobject and polkit-agent
+Summary:	Polkit-qt-1 - Qt API wrapper library around polkit
+Summary(pl.UTF-8):	Polkit-qt-1 - obudowanie bibliotek polkit w API w stylu Qt
 Name:		polkit-qt-1
 Version:	0.96.1
-Release:	4
-License:	GPL v2
+Release:	5
+License:	LGPL v2+
 Group:		Libraries
-Source0:	ftp://ftp.kde.org/pub/kde/stable/apps/KDE4.x/admin//%{name}-%{version}.tar.bz2
+Source0:	ftp://ftp.kde.org/pub/kde/stable/apps/KDE4.x/admin/%{name}-%{version}.tar.bz2
 # Source0-md5:	7d122aa67c6786ea7d0bb023701693a1
 URL:		http://www.kde.org/
 BuildRequires:	QtCore-devel >= %{qtver}
@@ -20,42 +21,87 @@ BuildRequires:	pkgconfig
 BuildRequires:	polkit-devel >= 0.96
 BuildRequires:	qt4-build >= %{qtver}
 BuildRequires:	qt4-qmake >= %{qtver}
+Requires:	QtCore >= %{qtver}
+Requires:	QtDBus >= %{qtver}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-Polkit-qt-1 is a wrapper library around polkit-gobject and
-polkit-agent, which lets developers write easily applications using
-polkit-1, and even write custom authentication agents.
+Polkit-qt-1 is a wrapper library around polkit libraries, which lets
+developers write easily applications using polkit-1, and even write
+custom authentication agents.
+
+%description -l pl.UTF-8
+Polkit-qt-1 to biblioteka obudowująca biblioteki polkit, pozwalająca
+programistom w łatwy sposób tworzyć aplikacje korzystające z bibliotek
+polkit-1, a nawet pisać własnych agentów uwierzytelniających.
+
+%package devel
+Summary:	Development files for Polkit-qt-1 core library
+Summary(pl.UTF-8):	Pliki programistyczne biblioteki Polkit-qt-1
+Group:		Development/Libraries
+Requires:	%{name} = %{version}-%{release}
+Requires:	QtCore-devel >= %{qtver}
+Requires:	QtDBus-devel >= %{qtver}
+
+%description devel
+Development files for Polkit-qt-1 core library.
+
+%description devel -l pl.UTF-8
+Pliki programistyczne biblioteki Polkit-qt-1.
 
 %package agent
-Summary:	Polkit-qt-1 Agent
-License:	GPL v2
+Summary:	Qt API wrapper arount polkit-agent library
+Summary(pl.UTF-8):	Obudowanie biblioteki polkit-agent w API w stylu Qt
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description agent
-Polkit-qt-1 Agent.
+Qt API wrapper arount polkit-agent library.
 
-%package devel
-Summary:	Polkit-qt-1 development files
-License:	GPL v2
+%description agent -l pl.UTF-8
+Obudowanie biblioteki polkit-agent w API w stylu Qt.
+
+%package agent-devel
+Summary:	Development files for Polkit-qt-1 Agent library
+Summary(pl.UTF-8):	Pliki programistyczne biblioteki Polkit-qt-1 Agent
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
 Requires:	%{name}-agent = %{version}-%{release}
-Requires:	%{name}-gui = %{version}-%{release}
-Requires:	polkit-devel
+Requires:	%{name}-devel = %{version}-%{release}
 
-%description devel
-Polkit-qt-1 header files.
+%description agent-devel
+Development files for Polkit-qt-1 Agent library.
+
+%description agent-devel -l pl.UTF-8
+Pliki programistyczne biblioteki Polkit-qt-1 Agent.
 
 %package gui
-Summary:	Polkit-qt-1 GUI
-License:	GPL v2
+Summary:	Qt API wrapper arount polkit library - GUI functions
+Summary(pl.UTF-8):	Obudowanie biblioteki polkit w API w stylu Qt - funkcje GUI
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	QtGui >= %{qtver}
 
 %description gui
-Polkit-qt-1 GUI.
+Qt API wrapper arount polkit library - GUI functions.
+
+%description gui -l pl.UTF-8
+Obudowanie biblioteki polkit w API w stylu Qt - funkcje GUI.
+
+%package gui-devel
+Summary:	Development files for Polkit-qt-1 GUI library
+Summary(pl.UTF-8):	Pliki programistyczne biblioteki Polkit-qt-1 GUI
+Group:		Development/Libraries
+Requires:	%{name}-gui = %{version}-%{release}
+# polkit-qt-agent-1 is required by polkit-qt-1.pc
+Requires:	%{name}-agent-devel = %{version}-%{release}
+Requires:	%{name}-devel = %{version}-%{release}
+Requires:	QtGui >= %{qtver}
+
+%description gui-devel
+Development files for Polkit-qt-1 GUI library.
+
+%description gui-devel -l pl.UTF-8
+Pliki programistyczne biblioteki Polkit-qt-1 GUI.
 
 %prep
 %setup -q
@@ -63,54 +109,85 @@ Polkit-qt-1 GUI.
 %build
 install -d build
 cd build
-%cmake \
+%cmake .. \
+	-DCMAKE_BUILD_TYPE=%{!?debug:Release}%{?debug:Debug} \
+	-DCMAKE_CXX_FLAGS_RELEASE="-DNDEBUG" \
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
-	-LCMS_DIR=%{_libdir} \
+	-DCMAKE_VERBOSE_MAKEFILE=ON \
 	-DLIB_INSTALL_DIR=%{_libdir} \
-	-DCMAKE_BUILD_TYPE=%{!?debug:release}%{?debug:debug} \
 %if "%{_lib}" == "lib64"
 	-DLIB_SUFFIX=64 \
 %endif
-	../
+	-DQT_QMAKE_EXECUTABLE=/usr/bin/qmake-qt4
+
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} -C build install \
-	DESTDIR=$RPM_BUILD_ROOT \
-	kde_htmldir=%{_kdedocdir} \
-	kde_libs_htmldir=%{_kdedocdir}
-
-%post   -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
-%post   agent -p /sbin/ldconfig
-%postun agent -p /sbin/ldconfig
-%post   gui -p /sbin/ldconfig
-%postun gui -p /sbin/ldconfig
+	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
+
+%post	agent -p /sbin/ldconfig
+%postun	agent -p /sbin/ldconfig
+
+%post	gui -p /sbin/ldconfig
+%postun	gui -p /sbin/ldconfig
+
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %ghost %{_libdir}/libpolkit-qt-core-1.so.?
+%doc AUTHORS README README.porting TODO
 %attr(755,root,root) %{_libdir}/libpolkit-qt-core-1.so.*.*.*
-
-%files agent
-%defattr(644,root,root,755)
-%attr(755,root,root) %ghost %{_libdir}/libpolkit-qt-agent-1.so.?
-%attr(755,root,root) %{_libdir}/libpolkit-qt-agent-1.so.*.*.*
-
-%files gui
-%defattr(644,root,root,755)
-%attr(755,root,root) %ghost %{_libdir}/libpolkit-qt-gui-1.so.?
-%attr(755,root,root) %{_libdir}/libpolkit-qt-gui-1.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libpolkit-qt-core-1.so.0
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libpolkit-qt-agent-1.so
 %attr(755,root,root) %{_libdir}/libpolkit-qt-core-1.so
+%dir %{_includedir}/polkit-qt-1
+%dir %{_includedir}/polkit-qt-1/PolkitQt1
+%{_includedir}/polkit-qt-1/PolkitQt1/ActionDescription
+%{_includedir}/polkit-qt-1/PolkitQt1/Authority
+%{_includedir}/polkit-qt-1/PolkitQt1/Details
+%{_includedir}/polkit-qt-1/PolkitQt1/Identity
+%{_includedir}/polkit-qt-1/PolkitQt1/Subject
+%{_includedir}/polkit-qt-1/PolkitQt1/TemporaryAuthorization
+%{_includedir}/polkit-qt-1/polkitqt1-actiondescription.h
+%{_includedir}/polkit-qt-1/polkitqt1-authority.h
+%{_includedir}/polkit-qt-1/polkitqt1-details.h
+%{_includedir}/polkit-qt-1/polkitqt1-export.h
+%{_includedir}/polkit-qt-1/polkitqt1-identity.h
+%{_includedir}/polkit-qt-1/polkitqt1-subject.h
+%{_includedir}/polkit-qt-1/polkitqt1-temporaryauthorization.h
+%{_includedir}/polkit-qt-1/polkitqt1-version.h
+%{_pkgconfigdir}/polkit-qt-core-1.pc
+
+%files agent
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libpolkit-qt-agent-1.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libpolkit-qt-agent-1.so.0
+
+%files agent-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libpolkit-qt-agent-1.so
+%{_includedir}/polkit-qt-1/PolkitQt1/Agent
+%{_includedir}/polkit-qt-1/polkitqt1-agent-*.h
+%{_pkgconfigdir}/polkit-qt-agent-1.pc
+
+%files gui
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libpolkit-qt-gui-1.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libpolkit-qt-gui-1.so.0
+
+%files gui-devel
+%defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libpolkit-qt-gui-1.so
-%{_includedir}/polkit-qt-1
-%{_pkgconfigdir}/*.pc
+%{_includedir}/polkit-qt-1/PolkitQt1/Gui
+%{_includedir}/polkit-qt-1/polkitqt1-gui-*.h
+%{_pkgconfigdir}/polkit-qt-gui-1.pc
+%{_pkgconfigdir}/polkit-qt-1.pc
