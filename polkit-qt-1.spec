@@ -3,12 +3,12 @@
 Summary:	Polkit-qt-1 - Qt API wrapper library around polkit
 Summary(pl.UTF-8):	Polkit-qt-1 - obudowanie bibliotek polkit w API w stylu Qt
 Name:		polkit-qt-1
-Version:	0.96.1
-Release:	5
+Version:	0.99.0
+Release:	1
 License:	LGPL v2+
 Group:		Libraries
 Source0:	ftp://ftp.kde.org/pub/kde/stable/apps/KDE4.x/admin/%{name}-%{version}.tar.bz2
-# Source0-md5:	7d122aa67c6786ea7d0bb023701693a1
+# Source0-md5:	1c5b4113a2a167624b5f716b4f03a219
 URL:		http://www.kde.org/
 BuildRequires:	QtCore-devel >= %{qtver}
 BuildRequires:	QtDBus-devel >= %{qtver}
@@ -144,7 +144,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS README README.porting TODO
 %attr(755,root,root) %{_libdir}/libpolkit-qt-core-1.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libpolkit-qt-core-1.so.0
+%attr(755,root,root) %ghost %{_libdir}/libpolkit-qt-core-1.so.1
 
 %files devel
 %defattr(644,root,root,755)
@@ -166,11 +166,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/polkit-qt-1/polkitqt1-temporaryauthorization.h
 %{_includedir}/polkit-qt-1/polkitqt1-version.h
 %{_pkgconfigdir}/polkit-qt-core-1.pc
+%{_libdir}/cmake/PolkitQt-1
 
 %files agent
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libpolkit-qt-agent-1.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libpolkit-qt-agent-1.so.0
+%attr(755,root,root) %ghost %{_libdir}/libpolkit-qt-agent-1.so.1
 
 %files agent-devel
 %defattr(644,root,root,755)
@@ -182,7 +183,7 @@ rm -rf $RPM_BUILD_ROOT
 %files gui
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libpolkit-qt-gui-1.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libpolkit-qt-gui-1.so.0
+%attr(755,root,root) %ghost %{_libdir}/libpolkit-qt-gui-1.so.1
 
 %files gui-devel
 %defattr(644,root,root,755)
