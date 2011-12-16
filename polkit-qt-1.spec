@@ -1,14 +1,14 @@
-%define		qtver	4.6.3
+%define		qtver	4.7.4
 
 Summary:	Polkit-qt-1 - Qt API wrapper library around polkit
 Summary(pl.UTF-8):	Polkit-qt-1 - obudowanie bibliotek polkit w API w stylu Qt
 Name:		polkit-qt-1
-Version:	0.99.0
-Release:	2
+Version:	0.103.0
+Release:	1
 License:	LGPL v2+
 Group:		Libraries
 Source0:	ftp://ftp.kde.org/pub/kde/stable/apps/KDE4.x/admin/%{name}-%{version}.tar.bz2
-# Source0-md5:	1c5b4113a2a167624b5f716b4f03a219
+# Source0-md5:	a105e233e6733fb072c9080cd7ae1af2
 URL:		http://www.kde.org/
 BuildRequires:	QtCore-devel >= %{qtver}
 BuildRequires:	QtDBus-devel >= %{qtver}
