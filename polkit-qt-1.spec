@@ -16,7 +16,8 @@ BuildRequires:	QtGui-devel >= %{qtver}
 BuildRequires:	QtTest-devel >= %{qtver}
 BuildRequires:	QtXml-devel >= %{qtver}
 BuildRequires:	automoc4
-BuildRequires:	cmake
+BuildRequires:	cmake >= 2.6.2
+BuildRequires:	glib2-devel >= 2.0
 BuildRequires:	pkgconfig
 BuildRequires:	polkit-devel >= 0.96
 BuildRequires:	qt4-build >= %{qtver}
