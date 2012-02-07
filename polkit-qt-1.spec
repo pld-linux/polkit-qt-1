@@ -4,7 +4,7 @@ Summary:	Polkit-qt-1 - Qt API wrapper library around polkit
 Summary(pl.UTF-8):	Polkit-qt-1 - obudowanie bibliotek polkit w API w stylu Qt
 Name:		polkit-qt-1
 Version:	0.103.0
-Release:	2
+Release:	3
 License:	LGPL v2+
 Group:		Libraries
 Source0:	ftp://ftp.kde.org/pub/kde/stable/apps/KDE4.x/admin/%{name}-%{version}.tar.bz2
@@ -24,7 +24,8 @@ BuildRequires:	qt4-build >= %{qtver}
 BuildRequires:	qt4-qmake >= %{qtver}
 Requires:	QtCore >= %{qtver}
 Requires:	QtDBus >= %{qtver}
-Obsoletes:	polkit-qt
+Provides:	polkit-qt = %{version}-%{release}
+Obsoletes:	polkit-qt < 0.103.0-1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -44,7 +45,8 @@ Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	QtCore-devel >= %{qtver}
 Requires:	QtDBus-devel >= %{qtver}
-Obsoletes:	polkit-qt-devel
+Provides:	polkit-qt-devel = %{version}-%{release}
+Obsoletes:	polkit-qt-devel < 0.103.0-1
 
 %description devel
 Development files for Polkit-qt-1 core library.
@@ -83,7 +85,8 @@ Summary(pl.UTF-8):	Obudowanie biblioteki polkit w API w stylu Qt - funkcje GUI
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	QtGui >= %{qtver}
-Obsoletes:	polkit-qt-gui
+Provides:	polkit-qt-gui = %{version}-%{release}
+Obsoletes:	polkit-qt-gui < 0.103.0-1
 
 %description gui
 Qt API wrapper arount polkit library - GUI functions.
@@ -100,7 +103,8 @@ Requires:	%{name}-gui = %{version}-%{release}
 Requires:	%{name}-agent-devel = %{version}-%{release}
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	QtGui >= %{qtver}
-Obsoletes:	polkit-qt-gui-devel
+Provides:	polkit-qt-gui-devel = %{version}-%{release}
+Obsoletes:	polkit-qt-gui-devel < 0.103.0-1
 
 %description gui-devel
 Development files for Polkit-qt-1 GUI library.
@@ -123,7 +127,7 @@ cd build
 %if "%{_lib}" == "lib64"
 	-DLIB_SUFFIX=64 \
 %endif
-	-DQT_QMAKE_EXECUTABLE=/usr/bin/qmake-qt4
+	-DQT_QMAKE_EXECUTABLE=%{_bindir}/qmake-qt4
 
 %{__make}
 
