@@ -4,7 +4,7 @@ Summary:	Polkit-qt-1 - Qt API wrapper library around polkit
 Summary(pl.UTF-8):	Polkit-qt-1 - obudowanie bibliotek polkit w API w stylu Qt
 Name:		polkit-qt-1
 Version:	0.103.0
-Release:	3
+Release:	4
 License:	LGPL v2+
 Group:		Libraries
 Source0:	ftp://ftp.kde.org/pub/kde/stable/apps/KDE4.x/admin/%{name}-%{version}.tar.bz2
